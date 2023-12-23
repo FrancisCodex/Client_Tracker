@@ -14,6 +14,7 @@ const useApi = (deps) => {
       setLoading(true);
       try {
         const response = await api.get('/api/user');
+        console.log("response: ", response.data)
         setData(response.data);
         setError(null);
       } catch (error) {

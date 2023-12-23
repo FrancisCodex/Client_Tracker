@@ -1,27 +1,36 @@
-import React, { createContext, useState } from 'react';
+// AuthProvider.jsx
+import React, { createContext, useState, useEffect } from 'react';
 import useLogin from '../../hooks/useLogin';
 import useApi from '../../hooks/api';
-import Loading from '../buttons/loading';
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return localStorage.getItem('isAuthenticated') === 'true';
+  });
   const { login } = useLogin();
-  const { data: user, loading, error } = useApi([isAuthenticated]);
-  console.log(user);
+  const { data: user } = useApi([isAuthenticated]);
+
   const authenticate = async (email, password) => {
     const result = await login(email, password);
     if (result) {
       setIsAuthenticated(true);
+      localStorage.setItem('isAuthenticated', 'true');
     }
   };
-  if (loading) {
-    return <div><Loading/></div>;
-  }
-  
+
+  const logout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem('isAuthenticated');
+  };
+
+  useEffect(() => {
+    console.log('isAuthenticated', isAuthenticated);
+  }, [isAuthenticated]);
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, authenticate, user, loading, error }}>
+    <AuthContext.Provider value={{ isAuthenticated, authenticate, logout, user }}>
       {children}
     </AuthContext.Provider>
   );

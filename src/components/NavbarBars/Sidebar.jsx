@@ -16,7 +16,7 @@ const Sidebar = () => {
     };
 
     return (
-        <div className="sidebar" id="sidebar">
+        <div className="sidebar d-none d-sm-block" id="sidebar">
             <ul className="sidebar-nav" id="sidebar-nav">
                 <li className="nav-item">
                     {/* Logo */}

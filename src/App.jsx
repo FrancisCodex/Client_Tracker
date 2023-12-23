@@ -15,6 +15,7 @@ import Register from './components/auth/Register';
 import Sidebar from './components/NavbarBars/Sidebar';
 import AuthProvider from './components/authprovider/AuthProvider';
 import {ToastContainer} from 'react-toastify';
+import ProtectedRoute from './components/authprovider/Protected';
 
 function App() {
   return (
@@ -34,20 +35,20 @@ function AppContent() {
   return (
     <div className="app-container">
       {!hideSidebarFor.includes(location.pathname) && (
-        <div className="sidebar-container">
-          <Sidebar />
-        </div>
+        <div className="sidebar-container d-none d-md-block">
+        <Sidebar />
+    </div>
       )}
       <div className={`route-container ${hideSidebarFor.includes(location.pathname) ? 'center-content' : ''}`}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<ProtectedRoute> <Dashboard /> </ProtectedRoute> } />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/incomes" element={<Incomes />} />
-          <Route path="/income-categories" element={<IncomeCategories />} />
-          <Route path="/expenses" element={<Expenses />} />
-          <Route path="/expense-categories" element={<ExpenseCategories />} />
+          <Route path="/incomes" element={<ProtectedRoute> <Incomes /> </ProtectedRoute>} />
+          <Route path="/income-categories" element={<ProtectedRoute> <IncomeCategories /> </ProtectedRoute>} />
+          <Route path="/expenses" element={<ProtectedRoute> <Expenses /> </ProtectedRoute>} />
+          <Route path="/expense-categories" element={<ProtectedRoute> <ExpenseCategories /> </ProtectedRoute>} />
           <Route path="/visitors" element={<Visitors />} />
         </Routes>
       </div>

@@ -53,14 +53,6 @@ svg {
     font-family: 'Poppins', sans-serif;
 }
 
-.max150{max-width: 150px !important;}
-.min150{min-width: 150px !important;}
-.min100{min-width: 100px !important;}
-.max100{max-width: 100px !important;}
-.min200{min-width: 200px !important;}
-.max200{max-width: 200px !important;}
-.min250{min-width: 250px !important;}
-.max250{max-width: 250px !important;}
 
 /*App.jsx*/
 #app {
@@ -1296,9 +1288,13 @@ footer {
     border-bottom: 2px solid #475f7b
 }
 
-.table-action-col {
-    min-width: 180px !important;
+.table-responsive{
+    overflow-x: auto;
 }
+
+/* .table-action-col {
+    min-width: 180px !important;
+} */
 
 .table-action-btns svg {
     margin: 2px 4px;
