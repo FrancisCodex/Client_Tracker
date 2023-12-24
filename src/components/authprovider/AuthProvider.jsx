@@ -2,6 +2,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import useLogin from '../../hooks/useLogin';
 import useApi from '../../hooks/api';
+import Cookies from 'js-cookie';
 
 export const AuthContext = createContext();
 
@@ -13,15 +14,14 @@ const AuthProvider = ({ children }) => {
   const { data: user } = useApi([isAuthenticated]);
 
   const authenticate = async (email, password) => {
-    const result = await login(email, password);
-    if (result) {
+       await login(email, password);
       setIsAuthenticated(true);
       localStorage.setItem('isAuthenticated', 'true');
-    }
   };
 
   const logout = () => {
     setIsAuthenticated(false);
+    Cookies.remove('accessToken');
     localStorage.removeItem('isAuthenticated');
   };
 

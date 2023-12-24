@@ -16,6 +16,7 @@ import EditExpense from "./EditExpense";
 import ViewExpense from "./ViewExpense";
 import { fetchExpenses } from './expenseStore';
 import { toast } from 'react-toastify';
+import Expensetable from "./expensetable";
 
 
 const Expense = () => {
@@ -271,67 +272,9 @@ const Expense = () => {
 
             {loading && <Loader />}
             {!loading && (
-                <div className="table-responsive bg-white shadow-sm">
-                    <table className="table mb-0 table-hover">
-                        <thead className="thead-dark">
-                            <tr>
-                                <th>
-                                <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    onChange={select_all}
-                                    checked={all_selected}
-                                />
-                                </th>
-                                <th>Title</th>
-                                <th>Amount</th>
-                                <th>Category</th>
-                                <th>Date</th>
-                                <th className="table-action-col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {(expenses || []).map((expense) => (
-                                <tr key={expense.id}>
-                                    <td>
-                                        <input
-                                            type="checkbox"
-                                            className="form-check-input"
-                                            // Check the checkbox if the current expense's id is in the selected_expenses array
-                                            checked={selected_expenses.includes(expense.expense_id)}
-                                            onChange={(e) => {
-                                                // If the checkbox is checked
-                                                if (e.target.checked) {
-                                                    // Add the current expense's id to the selected_expenses array
-                                                    setSelectedExpenses([...selected_expenses, expense.expense_id]);
-                                                } else {
-                                                    // If the checkbox is not checked, remove the current expense's id from the selected_expenses array
-                                                    setSelectedExpenses(selected_expenses.filter((id) => id !== expense.id));
-                                                }
-                                            }}
-                                        />
-                                    </td>
-                                    <td className="min150 max150">{expense.title}</td>
-                                    <td className="min100 max100">{expense.amount}</td>
-                                    <td className="min200 max200">{expense.category}</td>
-                                    <td className="min100 max100">{new Date(expense.entry_date).toLocaleDateString()}</td>
-                                    <td className="table-action-btns d-flex flex-row">
-                                        <div onClick={() => openViewExpenseModal(expense.expense_id)} >
-                                        <ViewIcon color="#00CFDD" />
-                                        </div>
-                                        <div onClick={() => openEditExpenseModal(expense.expense_id)} >
-                                        <EditIcon color="#739EF1" />
-                                        </div>
-                                        <div onClick={() => deleteData(expense.expense_id)}>
-                                            <BinIcon color="#FF7474" />
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                <Expensetable expenses={expenses} openEditExpenseModal={openEditExpenseModal} deleteData={deleteData} />
             )}
+            
             {!loading && expenses.length > 0 && (
                 <Pagination
                     total_pages={expenseStore.total_pages}
